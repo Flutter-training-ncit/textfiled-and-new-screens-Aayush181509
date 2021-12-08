@@ -30,15 +30,15 @@ class _TabViewWidgetState extends State<TabViewWidget>
       body: Column(
         children: [
           TabBar(
-            indicatorWeight: 10,
+            indicatorWeight: 5,
             padding: EdgeInsets.only(left: 20, top: 10),
-            labelColor: Colors.black,
+            labelColor: Colors.blue,
             labelStyle: TextStyle(fontSize: 20),
-            indicatorColor: Colors.black,
+            indicatorColor: Colors.green,
             // custom color
             // Color(0xff000000),
             controller: tabController,
-            tabs: [Text("Tab 1"), Text("Tab 2"), Text("Tab 3")],
+            tabs: [Icon(Icons.home), Icon(Icons.phone), Icon(Icons.message)],
           ),
           Expanded(
             child: TabBarView(
