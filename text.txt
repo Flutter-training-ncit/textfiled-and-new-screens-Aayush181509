@@ -1,0 +1,8 @@
+//Databases in flutter
+sembast//nosql
+sqflite//sql
+moor
+shared preferences
+flutter secured storages//if we want to store secure info
+hive key value based databases
+

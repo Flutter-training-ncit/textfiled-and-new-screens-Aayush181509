@@ -5,6 +5,7 @@
 /// 4.When button is pressed user has to be navigated to a new screen which has title "Home"
 ///
 
+import 'package:android_and_ios/page_view_widget.dart';
 import 'package:android_and_ios/widgets/tab_view_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,7 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TabViewWidget()),
+                            builder: (context) => PageViewWidget()),
                       );
                     } else {
                       print("Sorry Please enter correct values");
