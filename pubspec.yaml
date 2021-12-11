@@ -19,6 +19,8 @@ dependencies:
   firebase_auth: ^3.3.3
   firebase_core: ^1.10.5
   google_sign_in: ^5.2.1
+  video_player: ^2.2.7
+  # better_player: ^0.0.79
   
 
 dev_dependencies:

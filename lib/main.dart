@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: ourRouteGenerator,
-      initialRoute: "/splash_screen",
+      initialRoute: "/tiktok_video",
       //PageViewWidget(),
     );
   }
