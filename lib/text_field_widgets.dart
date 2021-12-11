@@ -6,6 +6,7 @@
 ///
 
 import 'package:android_and_ios/page_view_widget.dart';
+import 'package:android_and_ios/utils/shared_pref.dart';
 import 'package:android_and_ios/widgets/tab_view_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -118,11 +119,8 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
                   if (formKey.currentState != null) {
                     var value = formKey.currentState!.validate();
                     if (value) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PageViewWidget()),
-                      );
+                      SharedPref.setUserHasLoggedIn(true);
+                      Navigator.pushNamed(context, "/listing_screen");
                     } else {
                       print("Sorry Please enter correct values");
                     }

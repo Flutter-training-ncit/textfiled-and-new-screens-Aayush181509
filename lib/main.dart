@@ -1,4 +1,5 @@
 import 'package:android_and_ios/list.dart';
+import 'package:android_and_ios/navigation/route_generator.dart';
 import 'package:android_and_ios/new_screen.dart';
 import 'package:android_and_ios/text_field_widgets.dart';
 import 'package:android_and_ios/widgets/post_widget.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TextFieldScreen(),
+      onGenerateRoute: ourRouteGenerator,
+      initialRoute: "/splash_screen",
       //PageViewWidget(),
     );
   }
