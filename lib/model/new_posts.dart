@@ -6,8 +6,8 @@ class NewPosts {
 
   factory NewPosts.fromJson(Map json) {
     return NewPosts(
-      newUserId: json["newUserId"] ?? -1,
-      newImageUrl: json["newImageUrl"] ?? "",
+      newUserId: json["id"] ?? -1,
+      newImageUrl: json["largeImageURL"] ?? "",
     );
   }
   Map toJson() {

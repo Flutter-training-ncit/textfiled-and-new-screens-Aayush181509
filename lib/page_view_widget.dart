@@ -23,7 +23,7 @@ class _PageViewWidgetState extends State<PageViewWidget> {
       print("this is out data from server");
       print(result.statusCode);
       print(result);
-      newPosts = (result.data as List).map<NewPosts>((item) {
+      newPosts = (result.data['hits'] as List).map<NewPosts>((item) {
         NewPosts nPost = NewPosts.fromJson(item);
         return nPost;
       }).toList();
@@ -88,7 +88,7 @@ class _PageViewWidgetState extends State<PageViewWidget> {
                 onPageChanged: (index) {
                   print(index.toString());
                 },
-                itemCount: images.length,
+                itemCount: newPosts.length,
                 itemBuilder: (context, index) {
                   final _currentPost = newPosts[index];
                   print(index.toString());
@@ -97,7 +97,7 @@ class _PageViewWidgetState extends State<PageViewWidget> {
                       Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(images[index]),
+                            image: NetworkImage(_currentPost.newImageUrl),
                             fit: BoxFit.cover,
                           ),
                         ),
