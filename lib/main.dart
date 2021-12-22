@@ -5,7 +5,6 @@ import 'package:android_and_ios/text_field_widgets.dart';
 import 'package:android_and_ios/widgets/post_widget.dart';
 import 'package:android_and_ios/widgets/tab_view_widget.dart';
 import 'package:flutter/material.dart';
-
 import 'page_view_widget.dart';
 
 void main() {
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: ourRouteGenerator,
-      initialRoute: "/tiktok_video",
+      initialRoute: "/splash_screen",
       //PageViewWidget(),
     );
   }

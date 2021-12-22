@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "611997125754",
+    "project_id": "booming-post-328717",
+    "storage_bucket": "booming-post-328717.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611997125754:android:eab10e523116adf0a53fc3",
+        "android_client_info": {
+          "package_name": "com.example.android_and_ios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611997125754-g433bb4me6t31hunqlc3d85umcb8roeq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAYtnP7F5HHwJOzoZUc56CHxUGckkIv_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611997125754-g433bb4me6t31hunqlc3d85umcb8roeq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

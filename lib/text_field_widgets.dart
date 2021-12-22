@@ -5,11 +5,13 @@
 /// 4.When button is pressed user has to be navigated to a new screen which has title "Home"
 ///
 
+import 'package:android_and_ios/bloc/login/login_cubit.dart';
 import 'package:android_and_ios/page_view_widget.dart';
 import 'package:android_and_ios/utils/shared_pref.dart';
 import 'package:android_and_ios/widgets/tab_view_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TextFieldScreen extends StatefulWidget {
   const TextFieldScreen({Key? key}) : super(key: key);
@@ -23,6 +25,9 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
 
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+
+  LoginCubit loginCubit = LoginCubit();
+  bool loginLoading = false;
 
   @override
   void dispose() {
@@ -51,12 +56,12 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
                 onChanged: (val) {
                   // print(val);
                 },
-                validator: (value) {
-                  if (value == null) {
+                validator: (isValidated) {
+                  if (isValidated == null) {
                     return "this is an email";
                   }
 
-                  if (value.isEmpty) {
+                  if (isValidated.isEmpty) {
                     return "this is an email";
                   }
 
@@ -75,15 +80,15 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
-                validator: (value) {
-                  print(value);
-                  if (value == null) {
+                validator: (isValidated) {
+                  print(isValidated);
+                  if (isValidated == null) {
                     return "Password must not be empty";
                   }
-                  if (value.isEmpty) {
+                  if (isValidated.isEmpty) {
                     return "Password must not be empty";
                   }
-                  if (value.length < 6) {
+                  if (isValidated.length < 6) {
                     return "Password must be greater than 6 characters.";
                   }
 
@@ -103,32 +108,40 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
               SizedBox(
                 height: 30,
               ),
-              MaterialButton(
-                minWidth: 150,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                color: Colors.green,
-                padding: EdgeInsets.all(20),
-                onPressed: () {
-                  var email = emailController.text;
-                  var password = passwordController.text;
+              IgnorePointer(
+                child: BlocListener(
+                  bloc: loginCubit,
+                  listener: (context, state) {},
+                  child: MaterialButton(
+                    minWidth: 150,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    color: Colors.green,
+                    padding: EdgeInsets.all(20),
+                    onPressed: () {
+                      var email = emailController.text;
+                      var password = passwordController.text;
 
-                  print(email);
-                  print(password);
+                      print(email);
+                      print(password);
 
-                  if (formKey.currentState != null) {
-                    var value = formKey.currentState!.validate();
-                    if (value) {
-                      SharedPref.setUserHasLoggedIn(true);
-                      Navigator.pushNamed(context, "/listing_screen");
-                    } else {
-                      print("Sorry Please enter correct values");
-                    }
-                  }
-                },
-                child: Text(
-                  "login",
-                  style: TextStyle(color: Colors.white),
+                      if (formKey.currentState != null) {
+                        var isValidated = formKey.currentState!.validate();
+                        if (isValidated) {
+                          loginCubit.loginWithEmailAndPassword(
+                              'aayush', 'root');
+                          SharedPref.setUserHasLoggedIn(true);
+                          Navigator.pushNamed(context, "/listing_screen");
+                        } else {
+                          print("Sorry Please enter correct isValidateds");
+                        }
+                      }
+                    },
+                    child: Text(
+                      "login",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
             ],
