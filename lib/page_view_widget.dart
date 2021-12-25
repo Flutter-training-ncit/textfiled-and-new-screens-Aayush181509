@@ -1,6 +1,10 @@
+import 'package:android_and_ios/bloc/posts/posts_bloc.dart';
 import 'package:android_and_ios/model/new_posts.dart';
+import 'package:android_and_ios/widgets/PageViewWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:android_and_ios/bloc/posts/posts_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PageViewWidget extends StatefulWidget {
   const PageViewWidget({Key? key}) : super(key: key);
@@ -11,37 +15,38 @@ class PageViewWidget extends StatefulWidget {
 
 class _PageViewWidgetState extends State<PageViewWidget> {
   String dataToBeDisplayed = "fetching data from server";
-  List<NewPosts> newPosts = [];
+  // List<NewPosts> newPosts = [];
   PageController pageController = PageController();
 
-  void fetchPostsDataFromServer() async {
-    print("Starting Data fetch from server");
-    final url =
-        "https://pixabay.com/api/?key=24747073-90cabfd95266df4486476df9e&q=yellow+flowers&image_type=photo&pretty=true";
-    try {
-      final result = await Dio().get(url);
-      print("this is out data from server");
-      print(result.statusCode);
-      print(result);
-      newPosts = (result.data['hits'] as List).map<NewPosts>((item) {
-        NewPosts nPost = NewPosts.fromJson(item);
-        return nPost;
-      }).toList();
+  // void fetchPostsDataFromServer() async {
+  //   print("Starting Data fetch from server");
+  //   final url =
+  //       "https://pixabay.com/api/?key=24747073-90cabfd95266df4486476df9e&q=yellow+flowers&image_type=photo&pretty=true";
+  //   try {
+  //     final result = await Dio().get(url);
+  //     print("this is out data from server");
+  //     print(result.statusCode);
+  //     print(result);
+  //     newPosts = (result.data['hits'] as List).map<NewPosts>((item) {
+  //       NewPosts nPost = NewPosts.fromJson(item);
+  //       return nPost;
+  //     }).toList();
 
-      setState(() {
-        dataToBeDisplayed = result.data.toString();
-      });
-    } catch (e) {
-      print(e);
-      setState(() {});
-    }
-  }
+  //     setState(() {
+  //       dataToBeDisplayed = result.data.toString();
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    print("\n This is the init function being called");
-    fetchPostsDataFromServer();
+    print("\n This is the init function being calledddd");
+    context.read<PostBloc>().getPostsFromServer();
+    // fetchPostsDataFromServer();
   }
 
   @override
@@ -71,16 +76,22 @@ class _PageViewWidgetState extends State<PageViewWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: newPosts.isEmpty
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : InkWell(
-              onTap: () {
-                pageController.animateToPage(3,
-                    duration: Duration(milliseconds: 400), curve: Curves.ease);
-              },
-              child: PageView.builder(
+      appBar: AppBar(
+        title: Text('MY NEW PAGE'),
+      ),
+      body: BlocConsumer<PostBloc, PostState>(
+        listener: (context, state) {
+          setState(() {});
+        },
+        builder: (context, state) {
+          if (state is PostsLoadingState) {
+            return CircularProgressIndicator();
+          }
+          if (state is ErrorState) {
+            return Text(state.errorMessage);
+          }
+          if (state is PostSuccessState) {
+            return PageView.builder(
                 controller: pageController,
                 scrollDirection: Axis.vertical,
                 //// never scrollable physics makes the list view un scrollable
@@ -88,93 +99,16 @@ class _PageViewWidgetState extends State<PageViewWidget> {
                 onPageChanged: (index) {
                   print(index.toString());
                 },
-                itemCount: newPosts.length,
+                itemCount: state.data.length,
                 itemBuilder: (context, index) {
-                  final _currentPost = newPosts[index];
+                  final _currentPost = state.data[index];
                   print(index.toString());
-                  return Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(_currentPost.newImageUrl),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 20,
-                        right: 10,
-                        child: Container(
-                          margin: EdgeInsets.all(5),
-                          padding: EdgeInsets.all(5),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 20),
-                              Icon(
-                                Icons.favorite,
-                                color: Colors.pink,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Icon(
-                                Icons.comment,
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Icon(
-                                Icons.share,
-                                color: Colors.blue,
-                              ),
-                              SizedBox(
-                                height: 60,
-                              ),
-                              Icon(Icons.circle),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        left: 10,
-                        child: Container(
-                          margin: EdgeInsets.all(20),
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                _currentPost.newUserId.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 40,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-
-                // children: [
-                //   Container(color: Colors.green),
-                //   Container(color: Colors.red),
-                //   Container(color: Colors.pink),
-                //   Container(color: Colors.black),
-                //   Container(color: Colors.white),
-                // ],
-              ),
-            ),
+                  return TikTokVideo(newPosts: _currentPost);
+                });
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

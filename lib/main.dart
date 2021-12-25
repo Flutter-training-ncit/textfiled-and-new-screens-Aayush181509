@@ -5,6 +5,8 @@ import 'package:android_and_ios/text_field_widgets.dart';
 import 'package:android_and_ios/widgets/post_widget.dart';
 import 'package:android_and_ios/widgets/tab_view_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/posts/posts_bloc.dart';
 import 'page_view_widget.dart';
 
 void main() {
@@ -16,14 +18,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => PostBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        onGenerateRoute: ourRouteGenerator,
+        initialRoute: "/splash_screen",
+        //PageViewWidget(),
       ),
-      onGenerateRoute: ourRouteGenerator,
-      initialRoute: "/splash_screen",
-      //PageViewWidget(),
     );
   }
 }
